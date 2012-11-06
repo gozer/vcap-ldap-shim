@@ -14,7 +14,7 @@ use constant ADMIN_PASSWORD => "sekrit";
 
 use CGI;
 use CGI::Carp;
-use URI::Escape qw(uri_unescape);
+use URI::Escape::XS qw(uri_unescape);
 use Data::Dumper;
 use JSON;
 use Net::LDAP;
@@ -29,7 +29,7 @@ my $q = CGI->new();
 my $data = decode_json($q->param('POSTDATA'));
 my $url = uri_unescape($q->url(-absolute=>1));
 
-( my $email = $url ) =~ s[/users/(.*)/tokens][$1];
+( my $email = $url ) =~ s[/users/(.*)/tokens/?][$1];
 my $password = $data->{password};
 
 if (not login_ldap($email, $password)) {
