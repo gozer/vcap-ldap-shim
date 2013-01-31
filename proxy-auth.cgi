@@ -139,7 +139,9 @@ sub get_cf_token {
     my $req = HTTP::Request->new(POST => "https://api.vcap.mozillalabs.com/users/$email/tokens");
     $req->header("Authorization" => ADMIN_TOKEN);
     $req->header("Content-type" => "application/json");
-    $req->content("{}");
+    $req->content(encode_json({
+        'ssh_privkey' => '1'
+    }));
     
     my $res = $ua->request($req);
     
